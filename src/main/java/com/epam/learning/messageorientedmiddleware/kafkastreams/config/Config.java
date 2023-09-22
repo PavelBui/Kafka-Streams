@@ -1,8 +1,6 @@
 package com.epam.learning.messageorientedmiddleware.kafkastreams.config;
 
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.processor.WallclockTimestampExtractor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,13 +29,5 @@ public class Config {
                 DEFAULT_TIMESTAMP_EXTRACTOR_CLASS_CONFIG, WallclockTimestampExtractor.class.getName()
         ));
     }
-
-    @Bean
-    public KStream<Integer, String> myFirstStream(StreamsBuilder kStreamBuilder) {
-        KStream<Integer, String> stream = kStreamBuilder.stream("task1-1");
-
-        return stream;
-    }
-
 
 }
