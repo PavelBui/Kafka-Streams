@@ -1,13 +1,13 @@
 package com.epam.learning.messageorientedmiddleware.kafkastreams.bean;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.jackson.JsonComponent;
 
-@Data
-@AllArgsConstructor
+@JsonComponent
 @NoArgsConstructor
+@Data
 @Builder
 public class Person {
 
@@ -15,5 +15,13 @@ public class Person {
     private String company;
     private String position;
     private int experience;
+
+    public Person(String name, String company, String position, int experience) {
+        this.name = name;
+        this.company = company;
+        this.position = position;
+        this.experience = experience;
+    }
+
 
 }

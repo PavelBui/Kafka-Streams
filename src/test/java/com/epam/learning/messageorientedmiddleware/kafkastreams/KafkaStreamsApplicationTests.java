@@ -26,6 +26,7 @@ class KafkaStreamsApplicationTests {
 	FirstStream firstStream = new FirstStream();
 	SecondStream secondStream = new SecondStream();
 	ThirdStream thirdStream = new ThirdStream();
+	FourthStream fourthStream = new FourthStream();
 
 	@BeforeEach
 	void setUp() {
@@ -93,18 +94,15 @@ class KafkaStreamsApplicationTests {
 
 	@Test
 	void testFourthStream() {
-		List<String> printMessages = thirdStream.process(streamsBuilder);
+		List<String> printMessages = fourthStream.process(streamsBuilder);
 		Properties props = new Properties();
-		props.put(StreamsConfig.APPLICATION_ID_CONFIG, "testStreams");
-		props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-		props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.Integer().getClass());
-		props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.serdeFrom(new CustomSerializer(), new CustomDeserializer()));
+		props.put(StreamsConfig.DEFAULT_DESERIALIZATION_EXCEPTION_HANDLER_CLASS_CONFIG, "org.apache.kafka.streams.errors.LogAndContinueExceptionHandler");
 		topologyTestDriver = new TopologyTestDriver(streamsBuilder.build(), props);
 		inputPersonTopic = topologyTestDriver.createInputTopic("task4", Serdes.Integer().serializer(), new CustomSerializer());
-		inputPersonTopic.pipeInput(12345, new Person("Pavel", "EPAM", "Developer", 2));
+		Person person = new Person("Pavel", "EPAM", "Developer", 2);
+		inputPersonTopic.pipeInput(12345, person);
 		printMessages.forEach(System.out::println);
-//		assertEquals(8, printMessages.size());
-//		assertEquals(2, printMessages.stream().filter(value -> value.startsWith("short ")).count());
-//		assertEquals(1, printMessages.stream().filter(value -> value.startsWith("long ")).count());
+//		assertEquals(1, printMessages.size());
+//		assertEquals(1, printMessages.stream().filter(value -> value.contains("Pavel")).count());
 	}
 }

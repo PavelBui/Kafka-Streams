@@ -20,10 +20,9 @@ public class CustomSerializer implements Serializer<Person> {
                 System.out.println("Null received at serializing");
                 return null;
             }
-            System.out.println("Serializing...");
             return objectMapper.writeValueAsBytes(person);
         } catch (Exception e) {
-            throw new SerializationException("Error when serializing MessageDto to byte[]");
+            throw new SerializationException("Error when serializing Person to byte[]");
         }
     }
 
