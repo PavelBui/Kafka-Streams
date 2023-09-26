@@ -1,6 +1,8 @@
 package com.epam.learning.messageorientedmiddleware.kafkastreams;
 
 import com.epam.learning.messageorientedmiddleware.kafkastreams.bean.*;
+import com.epam.learning.messageorientedmiddleware.kafkastreams.serde.MyDeserializer;
+import com.epam.learning.messageorientedmiddleware.kafkastreams.serde.MySerializer;
 import org.apache.kafka.common.serialization.*;
 import org.apache.kafka.streams.*;
 import org.apache.kafka.streams.processor.WallclockTimestampExtractor;
@@ -98,9 +100,8 @@ class KafkaStreamsApplicationTests {
 		Properties props = new Properties();
 		props.put(StreamsConfig.DEFAULT_DESERIALIZATION_EXCEPTION_HANDLER_CLASS_CONFIG, "org.apache.kafka.streams.errors.LogAndContinueExceptionHandler");
 		topologyTestDriver = new TopologyTestDriver(streamsBuilder.build(), props);
-		inputPersonTopic = topologyTestDriver.createInputTopic("task4", Serdes.Integer().serializer(), new CustomSerializer());
-		Person person = new Person("Pavel", "EPAM", "Developer", 2);
-		inputPersonTopic.pipeInput(12345, person);
+		inputPersonTopic = topologyTestDriver.createInputTopic("task4", Serdes.Integer().serializer(), new MySerializer());
+		inputPersonTopic.pipeInput(12345, new Person("Pavel", "EPAM", "Developer", 2));
 		printMessages.forEach(System.out::println);
 //		assertEquals(1, printMessages.size());
 //		assertEquals(1, printMessages.stream().filter(value -> value.contains("Pavel")).count());

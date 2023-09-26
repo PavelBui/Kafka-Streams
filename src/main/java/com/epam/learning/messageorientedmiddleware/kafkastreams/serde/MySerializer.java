@@ -1,12 +1,13 @@
-package com.epam.learning.messageorientedmiddleware.kafkastreams.bean;
+package com.epam.learning.messageorientedmiddleware.kafkastreams.serde;
 
+import com.epam.learning.messageorientedmiddleware.kafkastreams.bean.Person;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Serializer;
 
 import java.util.Map;
 
-public class CustomSerializer implements Serializer<Person> {
+public class MySerializer implements Serializer<Person> {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
