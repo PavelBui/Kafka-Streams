@@ -16,7 +16,7 @@ public class FourthStream {
     public List<String> process(StreamsBuilder streamsBuilder) {
         List<String> printMessages = new ArrayList<>();
         streamsBuilder.stream("task4", Consumed.with(Serdes.Integer(), Serdes.serdeFrom(new CustomSerializer(), new CustomDeserializer())))
-                .peek((key,value) -> printMessages.add("{" + key + " - " + value.toString() + "}"));
+                .peek((key,value) -> printMessages.add("{" + key + " - " + value + "}"));
 
         return printMessages;
     }
